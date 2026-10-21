@@ -1,0 +1,57 @@
+/* Mobile portrait */
+@media (max-width: 480px) {
+  /* Styles pour smartphone en portrait */
+}
+
+/* Mobile landscape & petites tablettes */
+@media (min-width: 481px) and (max-width: 767px) {
+  /* Styles pour smartphone en paysage et petites tablettes */
+            .hero {
+                flex-direction: column;
+            }
+
+            .hero-content, .hero-image {
+                width: 100%;
+                margin-bottom: 50px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+
+}
+
+/* Tablettes portrait et consoles */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Styles pour tablettes et consoles type Switch */
+
+}
+
+/* Tablettes paysage et petits desktops */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  /* Styles pour tablettes paysage et petits écrans de bureau */
+}
+
+/* Desktop standard */
+@media (min-width: 1280px) and (max-width: 1919px) {
+  /* Styles pour desktop normal */
+}
+
+/* TV et grands écrans */
+@media (min-width: 1920px) {
+  /* Styles pour TV, grands moniteurs et consoles dockées */
+}
+
+
+@media (pointer: coarse) {
+  /* Styles spécifiques aux écrans tactiles et manettes */
+}

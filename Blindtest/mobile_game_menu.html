@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Mobile - Jeu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Header avec bouton hamburger */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Bouton hamburger animé */
+        .hamburger {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: white;
+            margin: 6px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(9px, 9px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(9px, -9px);
+        }
+
+        /* Menu mobile */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        /* Items du menu */
+        .menu-items {
+            list-style: none;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .menu-item {
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s ease;
+        }
+
+        .mobile-menu.active .menu-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .mobile-menu.active .menu-item:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu.active .menu-item:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu.active .menu-item:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-menu.active .menu-item:nth-child(4) { transition-delay: 0.4s; }
+
+        .menu-link {
+            display: block;
+            padding: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 600;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-link:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .menu-link:hover:before {
+            left: 100%;
+        }
+        .menu-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Icônes pour chaque section */
+        .menu-icon {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 28px;
+            vertical-align: middle;
+        }
+
+
+        /* Overlay pour fermer le menu */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 998;
+        }
+
+        .menu-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+
+
+        /* Animations au chargement */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .mobile-menu {
+                padding: 10px;
+            }
+
+            .menu-link {
+                font-size: 20px;
+                padding: 18px;
+            }
+
+            .menu-icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">MonJeu</div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+
+
+    <!-- Menu Mobile -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="#account" class="menu-link account-link">
+                    <span class="menu-icon">👤</span>
+                    Mon Compte
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#themes" class="menu-link themes-link">
+                    <span class="menu-icon">🎨</span>
+                    Thèmes
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#rules" class="menu-link rules-link">
+                    <span class="menu-icon">📋</span>
+                    Règles du Jeu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#play" class="menu-link play-link">
+                    <span class="menu-icon">🎮</span>
+                    Jouer
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+        const menuLinks = document.querySelectorAll('.menu-link');
+
+        // Toggle menu
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // Event listeners
+        hamburger.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Fermer le menu quand on clique sur un lien
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Animation de clic
+                link.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    link.style.transform = '';
+                }, 150);
+
+                // Fermer le menu après un délai
+                setTimeout(() => {
+                    toggleMenu();
+
+                    // Ici vous pouvez ajouter la logique pour naviguer vers la section
+                    console.log('Navigation vers:', link.getAttribute('href'));
+                }, 300);
+            });
+        });
+
+        // Fermer le menu avec la touche Échap
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+
+        // Animation au scroll (optionnel)
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(0, 0, 0, 0.5)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.3)';
+            }
+        });
+    </script>
+</body>
+</html>

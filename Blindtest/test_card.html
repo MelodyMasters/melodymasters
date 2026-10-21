@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grille Responsive avec Slider Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* Affichage desktop - Grille 4 colonnes */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Styles pour mobile - Slider horizontal */
+        @media (max-width: 768px) {
+            .grid-container {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 15px;
+                padding-bottom: 10px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .grid-container::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .grid-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+
+            .grid-container::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+
+            .grid-container::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+            .card {
+                min-width: 280px;
+                flex-shrink: 0;
+                scroll-snap-align: start;
+                margin-right: 0;
+            }
+
+            .card:last-child {
+                margin-right: 20px;
+            }
+
+        /* Responsive pour tablettes */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Grille Responsive avec Slider Mobile</h1>
+
+        <div class="grid-container" id="gridContainer">
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h3>Design</h3>
+                <p>Créez des interfaces utilisateur modernes et intuitives avec nos outils de design avancés.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Performance</h3>
+                <p>Optimisez vos applications pour une vitesse et une efficacité maximales.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔒</div>
+                <h3>Sécurité</h3>
+                <p>Protégez vos données avec nos solutions de sécurité de niveau entreprise.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📱</div>
+                <h3>Mobile</h3>
+                <p>Développez des applications mobiles natives et cross-platform performantes.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">☁️</div>
+                <h3>Cloud</h3>
+                <p>Déployez et gérez vos applications dans le cloud avec facilité.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Analytics</h3>
+                <p>Analysez vos données et obtenez des insights précieux pour votre business.</p>
+            </div>
+        </div>
+
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        // Gestion des indicateurs de scroll sur mobile
+        const gridContainer = document.getElementById('gridContainer');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const dots = scrollIndicator.querySelectorAll('.dot');
+
+        function updateScrollIndicator() {
+            if (window.innerWidth <= 768) {
+                const scrollLeft = gridContainer.scrollLeft;
+                const cardWidth = gridContainer.querySelector('.card').offsetWidth + 15; // largeur + gap
+                const activeIndex = Math.round(scrollLeft / cardWidth);
+
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            }
+        }
+
+        // Mise à jour des indicateurs lors du scroll
+        gridContainer.addEventListener('scroll', updateScrollIndicator);
+
+        // Mise à jour lors du redimensionnement de la fenêtre
+        window.addEventListener('resize', () => {
+            updateScrollIndicator();
+        });
+
+        // Gestion du clic sur les indicateurs
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    const cardWidth = gridContainer.querySelector('.card').offsetWidth + 15;
+                    gridContainer.scrollTo({
+                        left: index * cardWidth,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Support du swipe tactile amélioré
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        gridContainer.addEventListener('touchstart', (e) => {
+            if (window.innerWidth <= 768) {
+                startX = e.touches[0].clientX;
+                startScrollLeft = gridContainer.scrollLeft;
+            }
+        });
+
+        gridContainer.addEventListener('touchmove', (e) => {
+            if (window.innerWidth <= 768) {
+                const deltaX = startX - e.touches[0].clientX;
+                gridContainer.scrollLeft = startScrollLeft + deltaX;
+            }
+        });
+    </script>
+</body>
+</html>

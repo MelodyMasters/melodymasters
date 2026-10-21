@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelodyMasters - Guess The Song</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FF61D2, #FE9090, #6B8DE8, #5DE6DE);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        
+        .logo span {
+            color: #74FEBD;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 35px;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #FFFFFF;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .glass-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: -1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+        
+        .circle1 {
+            width: 400px;
+            height: 400px;
+            top: 5%;
+            left: -10%;
+            background: radial-gradient(circle, rgba(255, 97, 210, 0.1), rgba(254, 144, 144, 0.05));
+            animation: floatBubbleSlow 15s infinite alternate;
+        }
+        
+        .circle2 {
+            width: 500px;
+            height: 500px;
+            bottom: -15%;
+            right: -15%;
+            background: radial-gradient(circle, rgba(93, 230, 222, 0.1), rgba(107, 141, 232, 0.05));
+            animation: floatBubbleSlow 20s infinite alternate-reverse;
+        }
+        
+        @keyframes floatBubbleSlow {
+            0% { transform: translateY(0) translateX(0) scale(1); }
+            50% { transform: translateY(-30px) translateX(20px) scale(1.05); }
+            100% { transform: translateY(0) translateX(0) scale(1); }
+        }
+        
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 30px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), transparent);
+            z-index: -1;
+            border-radius: inherit;
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .game-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .game-instructions {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        /* MUSIC VISUALIZATION - replaced timer with just music visualization */
+        .visualization-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            height: 100px;
+        }
+        
+        .music-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 100%;
+            gap: 5px;
+        }
+        
+        .music-bar {
+            width: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            transition: height 0.2s ease;
+        }
+        
+        .audio-player {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .play-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .play-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .play-button i {
+            color: white;
+            font-size: 30px;
+            margin-left: 5px;
+        }
+        
+        .result-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .song-info {
+            display: flex;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .album-cover {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .song-details {
+            flex: 1;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .song-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .song-artist {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 5px;
+        }
+        
+        .song-album {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+        
+        .song-year {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+        
+        .song-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .action-button {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .action-button i {
+            margin-right: 8px;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .song-tooltip {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tooltip-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .tooltip-content {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        .game-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .next-button {
+            background: linear-gradient(135deg, rgba(93, 230, 222, 0.2), rgba(107, 141, 232, 0.2));
+        }
+        
+        .playlist-button {
+            background: linear-gradient(135deg, rgba(254, 144, 144, 0.2), rgba(255, 97, 210, 0.2));
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .game-card {
+                padding: 30px 20px;
+            }
+            
+            .song-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .song-details {
+                padding-left: 0;
+                padding-top: 20px;
+                text-align: center;
+            }
+            
+            .song-actions {
+                justify-content: center;
+                margin-top: 20px;
+            }
+            
+            .album-cover {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .game-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<body>
+    <div class="glass-circle circle1"></div>
+    <div class="glass-circle circle2"></div>
+    
+    <div class="container">
+        <nav>
+            <div class="logo">Melody<span>Masters</span></div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#" class="active">Games</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+            <button class="cta-button">Sign Up</button>
+        </nav>
+        
+        <section class="game-container">
+            <div class="game-card">
+                <div class="blur-overlay"></div>
+                
+                <div class="game-header">
+                    <h2 class="game-title">Guess The Song</h2>
+                </div>
+                
+                <div class="game-instructions">
+                    Listen carefully to the audio clip and guess the song!
+                </div>
+                
+                <!-- Audio visualization bars -->
+                <div class="visualization-container">
+                    <div class="music-bars" id="music-bars">
+                        <div class="music-bar" style="height: 5px;"></div>
+                        <div class="music-bar" style="height: 5px;"></div>
+                        <div class="music-bar" style="height: 5px;"></div>
+                        <div class="music-bar" style="height: 5px;"></div>
+                        <div class="music-bar" style="height: 5px;"></div>
+                        <div class="music-bar" style="height: 5px;"></div>
+                        <div class="music-bar" style="height: 5px;"></div>
+                    </div>
+                </div>
+                
+                <div class="audio-player">
+                    <div class="audio-controls">
+                        <div class="play-button" id="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <audio id="song-audio"></audio>
+                </div>
+                
+                <div class="result-container" id="result-container">
+                    <div class="song-info">
+                        <div class="album-cover">
+                            <img src="/api/placeholder/150/150" alt="Album Cover" id="album-cover">
+                        </div>
+                        <div class="song-details">
+                            <div>
+                                <h3 class="song-title" id="song-title">Song Title</h3>
+                                <p class="song-artist" id="song-artist">Artist Name</p>
+                                <p class="song-album" id="song-album">Album Name</p>
+                                <p class="song-year" id="song-year">Year: 2023</p>
+                            </div>
+                            <div class="song-actions">
+                                <button class="action-button">
+                                    <i class="fas fa-music"></i> Add to Playlist
+                                </button>
+                                <span class="tooltip">
+                                    <button class="action-button">
+                                        <i class="fas fa-info-circle"></i> Song Info
+                                    </button>
+                                    <span class="tooltiptext">Click for cultural context and interesting facts about this song!</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="song-tooltip" id="song-tooltip">
+                        <h4 class="tooltip-title">Cultural Context & Fun Facts</h4>
+                        <p class="tooltip-content" id="song-context">
+                            This song was a cultural phenomenon when it was released, hitting #1 in over 30 countries and becoming one of the defining tracks of its era. It introduced a new sound that influenced countless artists and remains relevant in pop culture today.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="game-actions">
+                    <button class="action-button next-button" id="next-button">
+                        <i class="fas fa-forward"></i> Next Song
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Sample song data - using real sample MP3 URLs that should work
+        const songs = [
+            {
+                id: 1,
+                title: "Uptown Funk",
+                artist: "Mark Ronson ft. Bruno Mars",
+                album: "Uptown Special",
+                year: 2014,
+                coverUrl: "/api/placeholder/150/150",
+                // Using a royalty-free sample MP3
+                audioUrl: "https://samplelib.com/lib/preview/mp3/sample-3s.mp3",
+                context: "This massive hit spent 14 weeks at #1 on the Billboard Hot 100, making it one of the longest-running number-one singles of the decade. Its funk-inspired sound brought a retro feel back to mainstream pop music, and the music video has over 4 billion views on YouTube."
+            },
+            {
+                id: 2,
+                title: "Shape of You",
+                artist: "Ed Sheeran",
+                album: "÷ (Divide)",
+                year: 2017,
+                coverUrl: "/api/placeholder/150/150",
+                // Using another royalty-free sample MP3
+                audioUrl: "https://samplelib.com/lib/preview/mp3/sample-9s.mp3",
+                context: "One of the best-selling digital singles of all time, 'Shape of You' broke streaming records worldwide and spent 33 weeks in the top 10 of the Billboard Hot 100. It marked a shift in Ed Sheeran's sound toward more dancehall and tropical house influences."
+            },
+            {
+                id: 3,
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                album: "After Hours",
+                year: 2019,
+                coverUrl: "/api/placeholder/150/150",
+                // Using another royalty-free sample MP3
+                audioUrl: "https://samplelib.com/lib/preview/mp3/sample-12s.mp3",
+                context: "This song became the longest-charting song in Billboard Hot 100 history, spending 90 weeks on the chart. Its 1980s-inspired synth-pop sound helped fuel a wave of 80s nostalgia in popular music. The song was famously snubbed at the Grammy Awards, causing The Weeknd to boycott the ceremony."
+            }
+        ];
+        
+        // Game variables
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let visualizationFrame = null;
+        
+        // DOM elements
+        const audioElement = document.getElementById('song-audio');
+        const playButton = document.getElementById('play-button');
+        const resultContainer = document.getElementById('result-container');
+        const nextButton = document.getElementById('next-button');
+        
+        // Song info elements
+        const songTitle = document.getElementById('song-title');
+        const songArtist = document.getElementById('song-artist');
+        const songAlbum = document.getElementById('song-album');
+        const songYear = document.getElementById('song-year');
+        const albumCover = document.getElementById('album-cover');
+        const songContext = document.getElementById('song-context');
+        
+        // Music visualization
+        const musicBars = document.querySelectorAll('.music-bar');
+        
+        // Web Audio API variables
+        let audioContext;
+        let analyzer;
+        let dataArray;
+        const bufferLength = 128; // Number of data points to analyze
+        
+        // Initialize the game
+        function initGame() {
+            // Set up the first song
+            loadSong(songs[currentSongIndex]);
+            
+            // Hide result container initially
+            resultContainer.style.display = 'none';
+            
+            // Set up event listeners
+            playButton.addEventListener('click', togglePlay);
+            nextButton.addEventListener('click', nextSong);
+            
+            // Set up audio event listeners
+            audioElement.addEventListener('ended', () => {
+                isPlaying = false;
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                stopVisualization();
+            });
+            
+            // Auto-play the first song after a short delay (browser policy requires user interaction first)
+            document.addEventListener('click', function autoPlayAfterInteraction() {
+                // Remove this listener after first click
+                document.removeEventListener('click', autoPlayAfterInteraction);
+                
+                // Small delay before playing
+                setTimeout(() => {
+                    if (!isPlaying) {
+                        togglePlay();
+                    }
+                }, 500);
+            });
+            
+            // For testing purposes, you can enable manual autoplay button
+            // Uncomment this if you want a button to trigger autoplay
+            /*
+            const autoplayButton = document.createElement('button');
+            autoplayButton.textContent = 'Enable Autoplay';
+            autoplayButton.style.position = 'fixed';
+            autoplayButton.style.bottom = '10px';
+            autoplayButton.style.right = '10px';
+            autoplayButton.style.zIndex = '1000';
+            autoplayButton.addEventListener('click', () => {
+                if (!isPlaying) {
+                    togglePlay();
+                }
+            });
+            document.body.appendChild(autoplayButton);
+            */
+        }
+        
+        // Initialize Web Audio API components
+        function initAudioAnalyzer() {
+            try {
+                // Create audio context
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create analyzer node
+                analyzer = audioContext.createAnalyser();
+                analyzer.fftSize = 256; // Must be power of 2
+                
+                // Connect audio element to analyzer
+                const audioSource = audioContext.createMediaElementSource(audioElement);
+                audioSource.connect(analyzer);
+                analyzer.connect(audioContext.destination);
+                
+                // Create data array for frequency data
+                dataArray = new Uint8Array(analyzer.frequencyBinCount);
+            } catch (error) {
+                console.error("Audio analyzer initialization error:", error);
+                // Fallback visualization if Web Audio API fails
+                setupFallbackVisualization();
+            }
+        }
+        
+        // Fallback visualization that doesn't depend on Web Audio API
+        function setupFallbackVisualization() {
+            // Simple animation-based visualization
+            let animationActive = false;
+            
+            function animateBars() {
+                if (!animationActive) return;
+                
+                musicBars.forEach(bar => {
+                    // Random height between 10px and 100px for a nice effect
+                    const randomHeight = 10 + Math.random() * 90;
+                    bar.style.height = `${randomHeight}px`;
+                });
+                
+                visualizationFrame = requestAnimationFrame(animateBars);
+            }
+            
+            // Override the original visualization functions
+            window.startVisualization = function() {
+                animationActive = true;
+                animateBars();
+            };
+            
+            window.stopVisualization = function() {
+                animationActive = false;
+                if (visualizationFrame) {
+                    cancelAnimationFrame(visualizationFrame);
+                    visualizationFrame = null;
+                }
+                
+                // Reset bars to minimal height
+                musicBars.forEach(bar => {
+                    bar.style.height = '5px';
+                });
+            };
+        }
+        
+        // Start visualization that responds to audio
+        function startVisualization() {
+            if (!audioContext && typeof AudioContext !== 'undefined') {
+                initAudioAnalyzer();
+            }
+            
+            // If no audio context (maybe browser doesn't support it), use the fallback
+            if (!audioContext) {
+                setupFallbackVisualization();
+                window.startVisualization();
+                return;
+            }
+            
+            // Resume audio context if suspended (browser policy)
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            
+            // Get frequency data and update visualization
+            function updateVisualizer() {
+                if (!isPlaying) return;
+                
+                // Get frequency data
+                analyzer.getByteFrequencyData(dataArray);
+                
+                // Update each bar height based on frequency data
+                // We'll use specific frequency ranges for each bar
+                const numBars = musicBars.length;
+                const segmentSize = Math.floor(bufferLength / numBars);
+                
+                for (let i = 0; i < numBars; i++) {
+                    // Calculate average value for this frequency segment
+                    let sum = 0;
+                    const startIndex = i * segmentSize;
+                    
+                    for (let j = 0; j < segmentSize; j++) {
+                        sum += dataArray[startIndex + j];
+                    }
+                    
+                    const average = sum / segmentSize;
+                    
+                    // Scale the value (0-255) to a reasonable bar height (10-100px)
+                    const height = 10 + (average / 255) * 90;
+                    
+                    // Apply height with a smooth transition
+                    musicBars[i].style.height = `${height}px`;
+                }
+                
+                // Call the next frame
+                visualizationFrame = requestAnimationFrame(updateVisualizer);
+            }
+            
+            // Start the animation loop
+            visualizationFrame = requestAnimationFrame(updateVisualizer);
+        }
+        
+        // Stop visualization
+        function stopVisualization() {
+            if (visualizationFrame) {
+                cancelAnimationFrame(visualizationFrame);
+                visualizationFrame = null;
+            }
+            
+            // Reset bars to minimal height
+            musicBars.forEach(bar => {
+                bar.style.height = '5px';
+            });
+        }
+        
+        // Load a song
+        function loadSong(song) {
+            // Set the audio source from the song object
+            audioElement.src = song.audioUrl;
+            audioElement.load(); // Important to load the audio first
+            
+            // Reset UI states
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            isPlaying = false;
+            resultContainer.style.display = 'none';
+            stopVisualization();
+        }
+        
+        // Toggle play/pause
+        function togglePlay() {
+            if (isPlaying) {
+                audioElement.pause();
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                stopVisualization();
+            } else {
+                // Play the audio
+                const playPromise = audioElement.play();
+                
+                // Handle the promise to catch any autoplay issues
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Playback started successfully
+                        playButton.innerHTML = '<i class="fas fa-pause"></i>';
+                        startVisualization();
+                        
+                        // Auto-show the result after listening time
+                        setTimeout(() => {
+                            endRound();
+                        }, 8000); // Give users 8 seconds to listen
+                    }).catch(error => {
+                        // Autoplay was prevented
+                        console.error("Playback prevented:", error);
+                

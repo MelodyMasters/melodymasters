@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelodyMasters - Modern Musical Gaming App</title>
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="devices.css">
+<style>
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            position: relative;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 35px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #FFFFFF;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+
+
+
+
+       /* .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 120%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+        }*/
+
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 25px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .hero-description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-image {
+          height:80%;
+        }
+
+        .mockup-container {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 30px rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.5s ease;
+        }
+
+        .mockup-container:hover  {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.15), 0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .mockup {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .mockup-container:hover .mockup {
+            transform: translateZ(20px);
+        }
+
+
+
+
+        .features {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: #ffffff;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+
+        .feature-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: 600;
+            position: relative;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+
+
+
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+            }
+
+            .hero-image {
+                width: 100%;
+                margin-bottom: 50px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+
+
+         /* Styles pour mobile - Slider horizontal */
+        @media (max-width: 768px) {
+            .grid-container {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 15px;
+                padding-top: 10px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .grid-container::-webkit-scrollbar {
+                height: 8px;
+                display:none;
+            }
+
+            .grid-container::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+
+            .grid-container::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+
+            .grid-container::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+            .category-card {
+                min-width: 280px;
+                height: 100%;
+                flex-shrink: 0;
+                scroll-snap-align: start;
+                margin-right: 0;
+            }
+
+            .category-card:last-child {
+                margin-right: 10px;
+            }
+
+
+        /* Responsive pour tablettes */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+      }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<body>
+    <div class="glass-circle circle1"></div>
+    <div class="glass-circle circle2"></div>
+
+    <div class="container">
+          <!-- Header -->
+    <header class="header">
+        <div class="logo">Melody<span>Masters</span></div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <!-- Menu Mobile -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <ul class="menu-items">
+            <li class="menu-item">
+                <a href="#account" class="menu-link">
+                    <span class="menu-icon">👤</span>
+                    Mon Compte
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#themes" class="menu-link">
+                    <span class="menu-icon">🎨</span>
+                    Thèmes
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#rules" class="menu-link">
+                    <span class="menu-icon">📋</span>
+                    Règles du Jeu
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#play" class="menu-link">
+                    <span class="menu-icon">🎮</span>
+                    Jouer
+                </a>
+            </li>
+        </ul>
+
+        <div class="footer">
+            <ul class="social-links">
+                <li><a href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24" style="fill:white;">
+                    <path d="M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z"></path>
+                  </svg></a></li>
+            </ul>
+          </div>
+
+          <div>
+            <p class="copyright">Melody Masters, un jeu © emmag_creations </p>
+          </div>
+    </nav>
+
+        <section class="hero">
+            <div class="floating-notes">
+                <!-- Musical notes animation will be added here -->
+            </div>
+
+            <div class="">
+                <h1 class="hero-title">Test Your Musical Knowledge</h1>
+                <p class="hero-description">Discover our minimalist music games with a modern twist. Challenge yourself with blind tests, musical timelines, and bingo games designed for true music enthusiasts.</p>
+                <button class="cta-button">This is a CTA</button>
+            </div>
+        </section>
+        <section class="grid-container" id="gridContainer">
+
+            <div class="hero-image">
+                <div class="category-card">
+                  <div class="category-icon">🎨</div>
+                  <h3>theme</h3>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="category-card">
+                  <div class="category-icon">🎨</div>
+                  <h3>theme</h3>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="category-card">
+                  <div class="category-icon">🎨</div>
+                  <h3>theme</h3>
+                </div>
+            </div>
+ <div class="hero-image">
+                <div class="category-card">
+                  <div class="category-icon">🎨</div>
+                  <h3>theme</h3>
+                </div>
+            </div>
+             <div class="hero-image">
+                <div class="category-card">
+                  <div class="category-icon">🎨</div>
+                  <h3>theme</h3>
+                </div>
+            </div>
+        </section>
+
+
+
+  <!--<script>
+  //menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+        const menuLinks = document.querySelectorAll('.menu-link');
+
+        // Toggle menu
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // Event listeners
+        hamburger.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Fermer le menu quand on clique sur un lien
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Animation de clic
+                link.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    link.style.transform = '';
+                }, 150);
+
+                // Fermer le menu après un délai
+                setTimeout(() => {
+                    toggleMenu();
+
+                    // Ici vous pouvez ajouter la logique pour naviguer vers la section
+                    console.log('Navigation vers:', link.getAttribute('href'));
+                }, 300);
+            });
+        });
+
+        // Fermer le menu avec la touche Échap
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+
+        // Animation au scroll (optionnel)
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(0, 0, 0, 0.5)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.3)';
+            }
+//cartes catégories
+        // Support du swipe tactile amélioré
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        const gridContainer = document.getElementById('gridContainer');
+
+        gridContainer.addEventListener('touchstart', (e) => {
+            if (window.innerWidth <= 768) {
+                startX = e.touches[0].clientX;
+                startScrollLeft = gridContainer.scrollLeft;
+            }
+        });
+
+        gridContainer.addEventListener('touchmove', (e) => {
+            if (window.innerWidth <= 768) {
+                const deltaX = startX - e.touches[0].clientX;
+                gridContainer.scrollLeft = startScrollLeft + deltaX;
+            }
+        });
+        });
+
+    </script>-->
+</body>
+</html>

@@ -1,0 +1,284 @@
+{
+  "$name": "Blind Test · Disco néon",
+  "$description": "Design system MVP. Interface sombre uniquement, du smartphone (390 px) à la TV (1280 px et plus). Une couleur = un rôle : Soleil = action, Magenta = identité, Cyan = temps et sélection, Crème = texte.",
+  "color": {
+    "$type": "color",
+    "brand": {
+      "soleil": {
+        "clair": { "$value": "#FFE29A" },
+        "base": { "$value": "#FFBF3F", "$description": "Action principale" },
+        "sombre": { "$value": "#D99A12", "$description": "État pressé" }
+      },
+      "magenta": {
+        "clair": { "$value": "#FF9BEF" },
+        "base": { "$value": "#FF3CE0", "$description": "Identité, titres, ondes sonores" },
+        "sombre": { "$value": "#C41FAB", "$description": "État pressé" }
+      },
+      "cyan": {
+        "clair": { "$value": "#8FF7FF" },
+        "base": { "$value": "#2EF2FF", "$description": "Temps, progression, sélection" },
+        "sombre": { "$value": "#12B5C2", "$description": "État pressé" }
+      }
+    },
+    "background": {
+      "nuit-900": { "$value": "#12071A", "$description": "Bas du dégradé de fond" },
+      "nuit-700": { "$value": "#1A0B24", "$description": "Fond principal" },
+      "violet-600": { "$value": "#2E1450", "$description": "Haut du dégradé de fond" }
+    },
+    "surface": {
+      "default": { "$value": "rgba(255, 255, 255, 0.06)", "$description": "Cartes, boutons secondaires" },
+      "hover": { "$value": "rgba(255, 255, 255, 0.10)" },
+      "active": { "$value": "rgba(255, 255, 255, 0.16)" }
+    },
+    "border": {
+      "default": { "$value": "rgba(201, 182, 219, 0.55)", "$description": "Éléments interactifs. Contraste 3,8 : 1 sur nuit-700" },
+      "subtle": { "$value": "rgba(201, 182, 219, 0.18)", "$description": "Filets de tableau, cartes non interactives" }
+    },
+    "track": {
+      "default": { "$value": "rgba(255, 255, 255, 0.35)", "$description": "Piste des barres de progression. Contraste 3,2 : 1" }
+    },
+    "text": {
+      "primary": { "$value": "#FFF6F1" },
+      "soft": { "$value": "#C9B6DB", "$description": "Texte secondaire" },
+      "disabled": { "$value": "#9885B0" },
+      "on-soleil": { "$value": "#1A0B24" }
+    },
+    "state": {
+      "success": { "$value": "#5DE6A8" },
+      "error": { "$value": "#FF6B7A" },
+      "warning": { "$value": "#FF9A4D" },
+      "info": { "$value": "{color.brand.cyan.base}" }
+    },
+    "button": {
+      "primary-fill": { "$value": "rgba(255, 191, 63, 0.14)" },
+      "primary-border": { "$value": "{color.brand.soleil.base}" },
+      "primary-text": { "$value": "{color.brand.soleil.base}" },
+      "secondary-fill": { "$value": "{color.surface.default}" },
+      "secondary-border": { "$value": "{color.border.default}" },
+      "secondary-text": { "$value": "{color.text.primary}" }
+    }
+  },
+  "gradient": {
+    "$type": "gradient",
+    "page": {
+      "$value": "linear-gradient(165deg, #2E1450 0%, #1A0B24 55%, #12071A 100%)"
+    },
+    "progress": {
+      "$value": "linear-gradient(90deg, #FF3CE0, #2EF2FF)"
+    },
+    "pochette-placeholder": {
+      "$value": "linear-gradient(135deg, #FF3CE0, #5B35FF 55%, #2EF2FF)",
+      "$description": "Remplacé par la pochette fournie par Spotify"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "halo-magenta": {
+      "$value": [
+        { "color": "#FF3CE059", "offsetX": "0px", "offsetY": "0px", "blur": "6px", "spread": "0px" },
+        { "color": "#FF3CE026", "offsetX": "0px", "offsetY": "0px", "blur": "18px", "spread": "0px" }
+      ],
+      "$description": "Deux ombres, jamais un aplat. Réservé au magenta"
+    },
+    "halo-cyan": {
+      "$value": [
+        { "color": "#2EF2FF59", "offsetX": "0px", "offsetY": "0px", "blur": "6px", "spread": "0px" },
+        { "color": "#2EF2FF26", "offsetX": "0px", "offsetY": "0px", "blur": "18px", "spread": "0px" }
+      ],
+      "$description": "Deux ombres, jamais un aplat. Réservé au cyan"
+    },
+    "halo-texte-magenta": {
+      "$value": "0 0 6px #FF3CE066, 0 0 18px #FF3CE033",
+      "$description": "text-shadow des titres magenta"
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "title": { "$value": ["Ultra", "serif"], "$description": "Titres et chiffres" },
+      "text": { "$value": ["Outfit", "sans-serif"], "$description": "Texte, boutons, tableaux" }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 }
+    },
+    "size": {
+      "$type": "dimension",
+      "body-mobile": { "$value": "16px", "$description": "Minimum sur mobile" },
+      "body-tv": { "$value": "24px", "$description": "Minimum sur TV" },
+      "eyebrow": { "$value": "16px" },
+      "card-title": { "$value": "20px" },
+      "title-page": { "$value": "40px" },
+      "title-home": { "$value": "80px" },
+      "countdown-mobile": { "$value": "104px" },
+      "countdown-tv": { "$value": "150px" }
+    },
+    "letter-spacing": {
+      "eyebrow": { "$type": "dimension", "$value": "0.14em" }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "card": { "$value": "24px" },
+    "pill": { "$value": "999px" }
+  },
+  "size": {
+    "$type": "dimension",
+    "touch-min": { "$value": "44px" },
+    "button-height": { "$value": "56px" },
+    "pochette-min": { "$value": "240px" },
+    "border-width": { "$value": "1.5px" },
+    "focus-ring-width": { "$value": "3px" },
+    "focus-ring-offset": { "$value": "3px" }
+  },
+  "space": {
+    "$type": "dimension",
+    "page-mobile": { "$value": "24px" },
+    "page-tv": { "$value": "48px" },
+    "block": { "$value": "20px" },
+    "grid-gap": { "$value": "14px" },
+    "chip-gap": { "$value": "10px" }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "mobile": { "$value": "390px" },
+    "tv": { "$value": "1280px" }
+  },
+  "component": {
+    "button": {
+      "primary": {
+        "fill": "{color.button.primary-fill}",
+        "border": "{color.button.primary-border}",
+        "text": "{color.button.primary-text}",
+        "height": "{size.button-height}",
+        "radius": "{radius.pill}",
+        "halo": null
+      },
+      "secondary": {
+        "fill": "{color.button.secondary-fill}",
+        "border": "{color.button.secondary-border}",
+        "text": "{color.button.secondary-text}",
+        "height": "{size.button-height}",
+        "radius": "{radius.pill}",
+        "halo": null
+      },
+      "compact": {
+        "examples": ["Accueil", "Catégories", "Pause"],
+        "height": "{size.touch-min}",
+        "radius": "{radius.pill}"
+      }
+    },
+    "chip": {
+      "height": "{size.touch-min}",
+      "radius": "{radius.pill}",
+      "rest": { "border": "{color.border.default}", "text": "{color.text.primary}" },
+      "selected": {
+        "border": "{color.brand.cyan.base}",
+        "text": "{color.brand.cyan.base}",
+        "halo": "{shadow.halo-cyan}",
+        "icon": "coche",
+        "aria-pressed": true
+      }
+    },
+    "category-card": {
+      "note": "Toutes les cartes sont identiques",
+      "fill": "{color.surface.default}",
+      "border": "{color.border.default}",
+      "radius": "{radius.card}",
+      "min-height": "120px",
+      "tag": { "fill": "{color.text.primary}", "text": "{color.text.on-soleil}", "font-size": "16px" },
+      "title": { "font": "{font.family.title}", "size": "{font.size.card-title}" },
+      "selected": {
+        "border": "{color.brand.magenta.base}",
+        "halo": "{shadow.halo-magenta}",
+        "tag-fill": "{color.brand.magenta.base}",
+        "icon": "coche"
+      }
+    },
+    "progress-bar": {
+      "height": "8px",
+      "track": "{color.track.default}",
+      "fill": "{gradient.progress}",
+      "role": "progressbar"
+    },
+    "countdown-ring": {
+      "border-color": "{color.brand.cyan.base}",
+      "border-width": "diamètre ÷ 28, minimum 6px",
+      "halo": "{shadow.halo-cyan}",
+      "number-font": "{font.family.title}",
+      "number-color": "{color.brand.cyan.base}",
+      "diameters": { "start": "180px", "listen-mobile": "240px", "listen-tv": "320px", "answer-counter": "96px" },
+      "role": "timer",
+      "aria-live": "off"
+    },
+    "waveform": {
+      "bars": 11,
+      "bar-width": "8px",
+      "color": "{color.brand.magenta.base}",
+      "halo": "{shadow.halo-magenta}",
+      "aria-hidden": true
+    },
+    "pochette": {
+      "aspect-ratio": "1 / 1",
+      "radius": "{radius.card}",
+      "halo": "{shadow.halo-magenta}",
+      "role": "img"
+    },
+    "recap-table": {
+      "columns": ["#", "Titre · artiste", "Année"],
+      "index-color": "{color.brand.cyan.base}",
+      "row-border": "{color.border.subtle}",
+      "max-height": "470px"
+    }
+  },
+  "screens": [
+    { "id": "accueil", "title": "Accueil", "actions": ["Jouer"] },
+    { "id": "categories", "title": "Choisis ta catégorie", "step": "1 / 2", "actions": ["Accueil"] },
+    {
+      "id": "regles",
+      "title": "Règles de la partie",
+      "step": "2 / 2",
+      "options": {
+        "duree-extrait-s": [5, 10, 20, 30],
+        "nombre-extraits": [5, 10, 15, 20],
+        "temporalite": ["Toutes", "60-70", "80-90", "2000+", "Récent"],
+        "difficulte": ["Très connu", "Connu", "Moins connu", "Mélange"],
+        "langue": ["Français", "International", "Mixte"]
+      },
+      "actions": ["Lancer la partie", "Retour aux catégories"]
+    },
+    { "id": "depart", "title": "La partie commence", "countdown": [3, 2, 1] },
+    { "id": "ecoute", "title": "Écoute", "actions": ["Passer à la réponse", "Catégories"] },
+    {
+      "id": "reponse",
+      "title": "Réponse",
+      "fields": ["pochette", "titre", "artiste", "album", "année"],
+      "extra-playback-s": 5,
+      "actions": ["Pause", "Extrait suivant", "Catégories"]
+    },
+    { "id": "fin", "title": "Partie terminée", "actions": ["Rejouer", "Choisir une catégorie"] }
+  ],
+  "accessibility": {
+    "contrast-on-nuit-700": {
+      "text-primary": "17,6 : 1",
+      "text-soft": "10 : 1",
+      "soleil": "11,4 : 1",
+      "magenta": "6,2 : 1",
+      "cyan": "13,7 : 1",
+      "error": "6,8 : 1",
+      "border": "3,8 : 1",
+      "track": "3,2 : 1"
+    },
+    "rules": [
+      "La sélection n'est jamais signalée par la couleur seule : coche et bord.",
+      "Focus clavier visible : contour crème de 3 px, décalé de 3 px.",
+      "Cibles tactiles de 44 px minimum.",
+      "Le décompte automatique de la réponse peut être mis en pause.",
+      "Seuls le titre révélé et « Extrait suivant » sont annoncés (aria-live polite), pas le décompte seconde par seconde.",
+      "Halos et ondes figés si l'utilisateur réduit les animations.",
+      "Le magenta sur surface violette (4,5 : 1) est réservé aux titres de 24 px et plus."
+    ]
+  }
+}

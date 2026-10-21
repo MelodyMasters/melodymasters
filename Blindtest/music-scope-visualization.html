@@ -1,0 +1,176 @@
+<!-- Replace the timer container section in your HTML with this code -->
+<div class="timer-container">
+    <div class="music-scope">
+        <div class="scope-container">
+            <div class="scope-bar" id="bar1"></div>
+            <div class="scope-bar" id="bar2"></div>
+            <div class="scope-bar" id="bar3"></div>
+            <div class="scope-bar" id="bar4"></div>
+            <div class="scope-bar" id="bar5"></div>
+            <div class="scope-bar" id="bar6"></div>
+            <div class="scope-bar" id="bar7"></div>
+            <div class="scope-bar" id="bar8"></div>
+            <div class="scope-bar" id="bar9"></div>
+            <div class="scope-bar" id="bar10"></div>
+            <div class="scope-bar" id="bar11"></div>
+            <div class="scope-bar" id="bar12"></div>
+            <div class="scope-bar" id="bar13"></div>
+            <div class="scope-bar" id="bar14"></div>
+            <div class="scope-bar" id="bar15"></div>
+        </div>
+        <div class="scope-ring">
+            <div class="scope-center"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Add these styles to your existing CSS (inside the style tag) -->
+<style>
+    .music-scope {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+    
+    .scope-ring {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: pulseGlow 3s infinite alternate;
+        z-index: 1;
+    }
+    
+    .scope-center {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255, 97, 210, 0.4), rgba(93, 230, 222, 0.4));
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    
+    .scope-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-origin: center;
+        z-index: 0;
+    }
+    
+    .scope-bar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 3px;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8));
+        transform-origin: bottom center;
+        border-radius: 3px;
+        transform: translate(-50%, -100%);
+        height: 30%;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    
+    #bar1 { transform: translate(-50%, -100%) rotate(0deg); }
+    #bar2 { transform: translate(-50%, -100%) rotate(24deg); }
+    #bar3 { transform: translate(-50%, -100%) rotate(48deg); }
+    #bar4 { transform: translate(-50%, -100%) rotate(72deg); }
+    #bar5 { transform: translate(-50%, -100%) rotate(96deg); }
+    #bar6 { transform: translate(-50%, -100%) rotate(120deg); }
+    #bar7 { transform: translate(-50%, -100%) rotate(144deg); }
+    #bar8 { transform: translate(-50%, -100%) rotate(168deg); }
+    #bar9 { transform: translate(-50%, -100%) rotate(192deg); }
+    #bar10 { transform: translate(-50%, -100%) rotate(216deg); }
+    #bar11 { transform: translate(-50%, -100%) rotate(240deg); }
+    #bar12 { transform: translate(-50%, -100%) rotate(264deg); }
+    #bar13 { transform: translate(-50%, -100%) rotate(288deg); }
+    #bar14 { transform: translate(-50%, -100%) rotate(312deg); }
+    #bar15 { transform: translate(-50%, -100%) rotate(336deg); }
+</style>
+
+<!-- Add this JavaScript to the existing script section -->
+<script>
+    // Add this to your existing JavaScript
+    
+    // Music scope animation
+    function animateScope(isPlaying) {
+        const bars = document.querySelectorAll('.scope-bar');
+        
+        if (isPlaying) {
+            bars.forEach(bar => {
+                const initialHeight = 30 + Math.random() * 20;
+                const duration = 0.5 + Math.random() * 0.5;
+                
+                bar.style.transition = `height ${duration}s ease-in-out`;
+                
+                // Animate bars randomly
+                function animateBar() {
+                    if (!isPlaying) return;
+                    
+                    const height = initialHeight + Math.random() * 30;
+                    bar.style.height = `${height}%`;
+                    
+                    setTimeout(animateBar, duration * 1000);
+                }
+                
+                animateBar();
+            });
+            
+            // Pulse center
+            document.querySelector('.scope-center').style.animation = 'pulseCenter 0.8s infinite alternate';
+        } else {
+            // Reset to idle state
+            bars.forEach(bar => {
+                bar.style.transition = 'height 1s ease-out';
+                bar.style.height = '30%';
+            });
+            
+            document.querySelector('.scope-center').style.animation = 'none';
+        }
+    }
+    
+    // Modify your togglePlay function
+    function togglePlay() {
+        if (isPlaying) {
+            // audioElement.pause();
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            clearInterval(timerInterval);
+            animateScope(false); // Stop scope animation
+        } else {
+            // audioElement.play();
+            playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            startTimer();
+            animateScope(true); // Start scope animation
+        }
+        
+        isPlaying = !isPlaying;
+    }
+    
+    // Add these animations to your CSS
+    document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        @keyframes pulseCenter {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+    </style>
+    `);
+    
+    // Initialize scope in idle state
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize game
+        initGame();
+        
+        // Initialize scope in idle state
+        animateScope(false);
+    });
+</script>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelodyMasters - Guess The Song</title>
+
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="devices.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 30px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), transparent);
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .game-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .game-instructions {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* MUSIC VISUALIZATION - replaced timer with just music visualization */
+        .visualization-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            height: 100px;
+        }
+
+        .music-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 100%;
+            gap: 5px;
+        }
+
+        .music-bar {
+            width: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            transition: height 0.2s ease;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .play-button i {
+            color: white;
+            font-size: 30px;
+            margin-left: 5px;
+        }
+
+        .result-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .song-info {
+            display: flex;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .album-cover {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .song-details {
+            flex: 1;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .song-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .song-artist {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 5px;
+        }
+
+        .song-album {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+
+        .song-year {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .song-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .action-button i {
+            margin-right: 8px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .song-tooltip {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tooltip-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .tooltip-content {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .game-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, rgba(93, 230, 222, 0.2), rgba(107, 141, 232, 0.2));
+        }
+
+        .playlist-button {
+            background: linear-gradient(135deg, rgba(254, 144, 144, 0.2), rgba(255, 97, 210, 0.2));
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .game-card {
+                padding: 30px 20px;
+            }
+
+            .song-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .song-details {
+                padding-left: 0;
+                padding-top: 20px;
+                text-align: center;
+            }
+
+            .song-actions {
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            .album-cover {
+                width: 120px;
+                height: 120px;
+            }
+
+            .game-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<body>
+    <div class="glass-circle circle1"></div>
+    <div class="glass-circle circle2"></div>
+
+
+        <section class="game-container">
+            <div class="game-card">
+                <div class="blur-overlay"></div>
+
+                <div class="game-header">
+                    <h2 class="game-title">Guess The Song</h2>
+                </div>
+
+                <div class="game-instructions">
+                    Listen carefully to the audio clip and guess the song!
+                </div>
+
+                <!-- Replaced timer with simple music visualization -->
+                <div class="visualization-container">
+                    <div class="music-bars">
+                        <div class="music-bar" style="height: 30px;"></div>
+                        <div class="music-bar" style="height: 50px;"></div>
+                        <div class="music-bar" style="height: 20px;"></div>
+                        <div class="music-bar" style="height: 70px;"></div>
+                        <div class="music-bar" style="height: 40px;"></div>
+                        <div class="music-bar" style="height: 60px;"></div>
+                        <div class="music-bar" style="height: 25px;"></div>
+                    </div>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-controls">
+                        <div class="play-button" id="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <audio id="song-audio" src=""></audio>
+                </div>
+
+                <div class="result-container" id="result-container">
+                    <div class="song-info">
+                        <div class="album-cover">
+                            <img src="/api/placeholder/150/150" alt="Album Cover" id="album-cover">
+                        </div>
+                        <div class="song-details">
+                            <div>
+                                <h3 class="song-title" id="song-title">Titre de la chanson</h3>
+                                <p class="song-artist" id="song-artist">Nom de l'artiste</p>
+                                <p class="song-album" id="song-album">Nom de l'album</p>
+                                <p class="song-year" id="song-year">Année : 2023</p>
+                            </div>
+                            <div class="song-actions">
+                                <button class="action-button">
+                                    <i class="fas fa-music"></i> Ajouter à la playlist
+                                </button>
+                                <span class="tooltip">
+                                    <button class="action-button">
+                                        <i class="fas fa-info-circle"></i> Infos sur la chanson
+                                    </button>
+                                    <span class="tooltiptext">Clique pour découvrir le contexte culturel et les anecdotes autour de cette chanson !</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="song-tooltip" id="song-tooltip">
+                        <h4 class="tooltip-title">Contexte culturel et anecdotes</h4>
+                        <p class="tooltip-content" id="song-context">
+                            Cette chanson a connu un succès culturel à sa sortie, atteignant le top 1 dans plus de 30 pays et devenant l'un des titres emblématiques de son époque. Elle a introduit un nouveau son qui a inspiré de nombreux artistes et reste encore aujourd'hui dans la culture pop.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="game-actions">
+                    <button class="action-button next-button" id="next-button">
+                        <i class="fas fa-forward"></i> Chanson suivante
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Sample song data - this would be fetched from a server in a real app
+        const songs = [
+            {
+                id: 1,
+                title: "Uptown Funk",
+                artist: "Mark Ronson ft. Bruno Mars",
+                album: "Uptown Special",
+                year: 2014,
+                coverUrl: "/api/placeholder/150/150",
+                audioUrl: "", // Placeholder for audio file URL
+                context: "This massive hit spent 14 weeks at #1 on the Billboard Hot 100, making it one of the longest-running number-one singles of the decade. Its funk-inspired sound brought a retro feel back to mainstream pop music, and the music video has over 4 billion views on YouTube."
+            },
+            {
+                id: 2,
+                title: "Shape of You",
+                artist: "Ed Sheeran",
+                album: "÷ (Divide)",
+                year: 2017,
+                coverUrl: "/api/placeholder/150/150",
+                audioUrl: "", // Placeholder for audio file URL
+                context: "One of the best-selling digital singles of all time, 'Shape of You' broke streaming records worldwide and spent 33 weeks in the top 10 of the Billboard Hot 100. It marked a shift in Ed Sheeran's sound toward more dancehall and tropical house influences."
+            },
+            {
+                id: 3,
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                album: "After Hours",
+                year: 2019,
+                coverUrl: "/api/placeholder/150/150",
+                audioUrl: "", // Placeholder for audio file URL
+                context: "This song became the longest-charting song in Billboard Hot 100 history, spending 90 weeks on the chart. Its 1980s-inspired synth-pop sound helped fuel a wave of 80s nostalgia in popular music. The song was famously snubbed at the Grammy Awards, causing The Weeknd to boycott the ceremony."
+            }
+        ];
+
+        // Game variables
+        let currentSongIndex = 0;
+        let isPlaying = false;
+
+        // DOM elements
+        const audioElement = document.getElementById('song-audio');
+        const playButton = document.getElementById('play-button');
+        const resultContainer = document.getElementById('result-container');
+        const nextButton = document.getElementById('next-button');
+
+        // Song info elements
+        const songTitle = document.getElementById('song-title');
+        const songArtist = document.getElementById('song-artist');
+        const songAlbum = document.getElementById('song-album');
+        const songYear = document.getElementById('song-year');
+        const albumCover = document.getElementById('album-cover');
+        const songContext = document.getElementById('song-context');
+
+        // Music visualization
+        const musicBars = document.querySelectorAll('.music-bar');
+        let visualizationInterval;
+
+        // Initialize the game
+        function initGame() {
+            // Set up the first song
+            loadSong(songs[currentSongIndex]);
+
+            // Hide result container initially
+            resultContainer.style.display = 'none';
+
+            // Set up event listeners
+            playButton.addEventListener('click', togglePlay);
+            nextButton.addEventListener('click', nextSong);
+
+            // Set up audio event listeners
+            audioElement.addEventListener('ended', () => {
+                isPlaying = false;
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                stopVisualization();
+            });
+        }
+
+        // Load a song
+        function loadSong(song) {
+            // In a real app, this would set the audio source
+            // audioElement.src = song.audioUrl;
+
+            // For this demo, we'll just pretend to play a song
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            isPlaying = false;
+
+            // Reset UI
+            resultContainer.style.display = 'none';
+            stopVisualization();
+        }
+
+        // Toggle play/pause
+        function togglePlay() {
+            if (isPlaying) {
+                // audioElement.pause();
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                stopVisualization();
+            } else {
+                // audioElement.play();
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+                startVisualization();
+
+                // Auto-show the result after 5 seconds (since we removed the timer)
+                setTimeout(() => {
+                    endRound();
+                }, 5000);
+            }
+
+            isPlaying = !isPlaying;
+        }
+
+        // Start visualization animation
+        function startVisualization() {
+            stopVisualization();
+
+            visualizationInterval = setInterval(() => {
+                musicBars.forEach(bar => {
+                    const randomHeight = Math.floor(Math.random() * 70) + 10;
+                    bar.style.height = `${randomHeight}px`;
+                });
+            }, 200);
+        }
+
+        // Stop visualization animation
+        function stopVisualization() {
+            clearInterval(visualizationInterval);
+            musicBars.forEach(bar => {
+                bar.style.height = '0px';
+            });
+        }
+
+        // End the round
+        function endRound() {
+            isPlaying = false;
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            stopVisualization();
+
+            // Display song info
+            displaySongInfo(songs[currentSongIndex]);
+
+            // Show result container
+            resultContainer.style.display = 'flex';
+        }
+
+        // Display song info
+        function displaySongInfo(song) {
+            songTitle.textContent = song.title;
+            songArtist.textContent = song.artist;
+            songAlbum.textContent = song.album;
+            songYear.textContent = `Année : ${song.year}`;
+            albumCover.src = song.coverUrl;
+            songContext.textContent = song.context;
+        }
+
+        // Next song
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(songs[currentSongIndex]);
+        }
+
+        // Initialize game when page loads
+        window.addEventListener('load', initGame);
+
+        // Animate music scope bars randomly for visual effect
+        function animateMusicBars() {
+            const bars = document.querySelectorAll('.music-bar');
+
+            bars.forEach(bar => {
+                const randomHeight = Math.floor(Math.random() * 70) + 10;
+                bar.style.height = `${randomHeight}px`;
+            });
+        }
+    </script>
+</body>
+</html>

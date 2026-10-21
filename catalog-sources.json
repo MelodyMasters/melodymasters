@@ -1,0 +1,37 @@
+{
+  "all": {
+    "fr": ["hits français", "chanson française"],
+    "international": ["global hits", "international hits"]
+  },
+  "pop": {
+    "fr": ["hits pop français", "pop française"],
+    "international": ["international pop hits", "pop hits"]
+  },
+  "rap": {
+    "fr": ["rap français", "rap francophone"],
+    "international": ["international hip hop", "rap hits"]
+  },
+  "rock": {
+    "fr": ["rock français", "rock français hits"],
+    "international": ["international rock hits", "rock classics"]
+  },
+  "metal": {
+    "fr": ["metal français", "metal français hits"],
+    "international": ["international metal", "heavy metal classics"]
+  },
+  "chanson": {
+    "fr": ["chanson française", "variété française"]
+  },
+  "electro": {
+    "fr": ["électro française", "hits électro français"],
+    "international": ["international dance hits", "electro hits"]
+  },
+  "soul": {
+    "fr": ["r&b français", "soul française"],
+    "international": ["international r&b soul", "soul classics"]
+  },
+  "latino": {
+    "fr": ["hits latino français", "latino en français"],
+    "international": ["latin hits", "reggaeton hits"]
+  }
+}

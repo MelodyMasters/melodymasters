@@ -1,0 +1,250 @@
+SCREENS A CREER - MVP BLIND TEST MUSICAL
+========================================
+
+Document de ressource base sur les specifications techniques consolidees
+"Blind test musical - Specifications consolidees (V0 -> V3)".
+
+PERIMETRE MVP (V0)
+------------------
+Application web responsive / PWA, mobile en portrait, jeu solo, sans compte,
+sans score et sans publicite. Parcours principal :
+
+Accueil -> Categories -> Criteres -> Depart -> [Ecoute -> Reponse] x N
+-> Fin de partie
+
+Le MVP comprend 7 ecrans principaux. Les fenetres modales, transitions et
+etats d'erreur ci-dessous sont des surfaces a concevoir, mais ne constituent
+pas des ecrans principaux supplementaires.
+
+
+1. ACCUEIL
+----------
+Objectif : lancer le parcours et presenter le jeu.
+
+Contenu :
+- Nom ou logo du jeu et accroche courte.
+- Bouton principal « Jouer » menant aux Categories.
+- Lien « Comment ca marche » ouvrant une fenetre avec les regles en 3 ou
+  4 lignes.
+- Pied de page avec les liens Mentions legales et Confidentialite, ainsi que
+  la mention « Donnees et extraits fournis par Deezer » (sous reserve des
+  conditions d'utilisation de Deezer).
+- Pas de raccourci « Rejouer » sur cet ecran.
+
+Surface associee :
+- Fenetre « Comment ca marche », fermable et revenant a l'Accueil.
+- Les destinations des liens legaux et de confidentialite sont a fournir ou
+  a confirmer ; leur contenu n'est pas defini dans les specifications.
+
+
+2. CATEGORIES
+-------------
+Objectif : choisir une categorie avant de regler la partie.
+
+Contenu et comportement :
+- Grille de cartes sur deux colonnes en portrait.
+- « Tous styles » apparait en carte pleine largeur en haut.
+- Un seul choix ; toucher une carte mene directement aux Criteres.
+- Les 8 categories V0 :
+  1. Tous styles
+  2. Pop
+  3. Rap & Hip-hop
+  4. Rock (metal inclus)
+  5. Chanson / Variete francaise (nom a revoir)
+  6. Dance & Electro
+  7. R&B & Soul
+  8. Latino
+- Fleche de retour vers l'Accueil.
+- La categorie francaise impose le repertoire « Francais » sur l'ecran
+  Criteres ; expliquer cette contrainte dans une info-bulle.
+
+Etats a prevoir :
+- Erreur reseau : message clair et bouton « Reessayer ».
+- Info-bulle expliquant le verrouillage du repertoire pour la categorie
+  francaise.
+
+
+3. CRITERES
+-----------
+Objectif : configurer la prochaine partie et verifier qu'elle est disponible.
+
+En-tete :
+- Categorie selectionnee, avec lien pour la changer.
+
+Criteres, dans cet ordre :
+- Duree de l'extrait : choix unique parmi 10, 15, 20 ou 25 secondes.
+  Valeur par defaut : 20 secondes.
+- Repertoire : choix unique parmi Francais, International ou Les deux.
+  Valeur par defaut : Les deux, sauf categorie francaise verrouillee.
+- Notoriete : multi-selection parmi Tres connus, Connus et Moins connus.
+  Les trois sont selectionnes par defaut.
+- Generations : multi-selection parmi 60, 70, 80, 90, 2000, 2010 et 2020.
+  Toutes sont selectionnees par defaut.
+- Nombre d'extraits : stepper − / + par pas de 10, de 10 a 100.
+  Valeur par defaut : 50.
+
+Comportement des multi-selections :
+- Pas d'option « Toutes » ; toutes les pastilles sont selectionnees au depart.
+- Si tout est selectionne, le premier appui ne garde que l'option touchee.
+- Les appuis suivants ajoutent ou retirent une option.
+- La derniere option selectionnee ne peut pas etre retiree ; afficher un
+  message adapte (ex. « Gardez au moins une generation »).
+- Les derniers criteres sont memorises sur l'appareil, sans compte.
+- Les icones d'aide ouvrent leurs info-bulles au toucher sur telephone, sans
+  ouverture automatique.
+- « Tout selectionner » peut etre propose en lien discret ; sa presence reste
+  a arbitrer au design.
+
+Resume et navigation :
+- Afficher une estimation dynamique de la duree de partie.
+- Estimation indicative : nombre d'extraits x (duree de l'extrait + 8 s de
+  reponse + environ 2 s de transition).
+- Bouton principal « Lancer la partie », desactive si les criteres sont
+  indisponibles.
+- Bouton de retour aux Categories.
+- Recalculer la disponibilite apres chaque modification de critere.
+- Si le nombre d'extraits choisi devient impossible, l'ajuster et afficher
+  un message.
+
+Etats a prevoir :
+- Normal : aucun message de disponibilite.
+- Tolere : regle de separation des artistes assouplie silencieusement.
+- Indisponible : message « Ces criteres sont trop restrictifs pour composer
+  une partie. Modifiez-les pour continuer », avec une suggestion (reduire le
+  nombre d'extraits ou ajouter des generations) ; lancement desactive.
+- Validation d'une tentative de retirer la derniere generation ou la derniere
+  option de notoriete.
+- Info-bulles associees aux criteres.
+
+
+4. DEPART - « LA PARTIE COMMENCE »
+---------------------------------
+Objectif : resumer la configuration, autoriser le demarrage audio sur mobile
+et preparer la selection avant d'entrer dans le jeu.
+
+Contenu et comportement :
+- Resume : categorie, generations, nombre d'extraits et duree d'extrait.
+- Bouton « Demarrer » : unique entree dans le jeu ; le geste utilisateur
+  autorise le son et active le blocage de mise en veille.
+- Fleche de retour vers les Criteres.
+- Au demarrage, afficher « Preparation de la partie… », puis le compte a
+  rebours 3, 2, 1.
+- La selection complete est composee avant le compte a rebours ; les liens
+  audio sont obtenus au lancement de la partie.
+
+Etats a prevoir :
+- Preparation en cours.
+- Erreur ou delai depasse : message explicite et bouton « Reessayer ».
+
+
+5. ECOUTE
+---------
+Objectif : faire ecouter un extrait sans reveler son identite.
+
+Contenu :
+- Barre de progression et texte de progression (ex. « 12 / 50 »).
+- Icone pour quitter la partie.
+- Animation decorative (vinyle ou ondes), non synchronisee au son.
+- Compte a rebours visible du temps d'ecoute restant, avec anneau ou barre.
+- Bouton Pause / Reprendre ; en pause, afficher « En pause » et geler le son
+  ainsi que le compte a rebours.
+- Bouton « Passer a la reponse » ; la reponse apparait immediatement et le son
+  continue la ou il en est.
+
+Surfaces et etats a prevoir :
+- Quitter ouvre une confirmation indiquant que la progression sera perdue ;
+  confirmer ramene aux Categories.
+- Pause / reprise.
+- Si l'application passe en arriere-plan, mettre la partie en attente sans
+  perte de progression.
+- Si la connexion est perdue, afficher « Connexion perdue » et proposer
+  « Reprendre » a l'extrait en cours.
+- Si un extrait est inaccessible, le remplacer automatiquement par un titre
+  de reserve, sans changer le compteur et sans alerter le joueur.
+
+
+6. REPONSE
+----------
+Objectif : reveler le titre et laisser au joueur le temps de voir la reponse.
+
+Contenu :
+- Grande pochette d'album.
+- Titre, artiste (featuring inclus), album et annee.
+- Limiter les textes a deux lignes et les tronquer proprement.
+- Conserver la barre et le texte de progression.
+- Minuteur visible de 8 secondes (barre de progression) ; passage automatique
+  a l'extrait suivant a la fin du delai.
+- Bouton « Suivant » bien visible en bas, accessible au pouce.
+- La musique continue avec un fondu de sortie ; elle s'arrete a la fin des
+  8 secondes ou au plus tard a la fin des 30 secondes de l'extrait.
+- Reserver une zone sous les informations pour les modales de la V2.
+
+Transition vers l'extrait suivant :
+- Apres la reponse, afficher environ 2 secondes une transition « Extrait 13 »
+  (numero adapte) pour precharger l'extrait suivant.
+- Cette transition est un etat/interstitiel du parcours, pas un ecran de
+  configuration autonome.
+
+
+7. FIN DE PARTIE
+----------------
+Objectif : confirmer la fin et permettre de relancer le jeu.
+
+Contenu :
+- Titre « Partie terminee ».
+- Resume : categorie, nombre d'extraits et generations choisies.
+- Bouton « Rejouer » : memes criteres, nouvelle selection.
+- Bouton « Changer de categorie ».
+- L'historique de la partie est memorise en V0.
+- Ne pas afficher de tableau recapitulatif des extraits en V0.
+
+
+SURFACES TRANSVERSALES ET REGLES D'INTERFACE
+--------------------------------------------
+- Format V0 : mobile, portrait ; pas de mode paysage ni d'interface TV.
+- Theme unique « Default » (sombre), sans bascule de theme.
+- L'interface doit gerer les etats de chargement, d'erreur et de reprise sans
+  perdre la progression lorsqu'une partie est mise en attente.
+- Les controles et messages doivent rester utilisables au toucher.
+- Aucun compte, score ou publicite en V0.
+
+
+HORS PERIMETRE MVP - A NE PAS CONFONDRE AVEC V0
+----------------------------------------------
+Evolutions V2 :
+- Jeu a plusieurs sur un seul ecran : creation de joueurs ou d'equipes et
+  attribution de points.
+- Modale de point culturel sur l'ecran Reponse.
+- Tableau recapitulatif des extraits en fin de partie.
+- Vibration d'avertissement.
+- Categories supplementaires (dont Afro, Reggae & Dancehall, Films & Series,
+  Jazz & Blues, selon leur statut de definition).
+
+Evolutions V3 et ulterieures :
+- Comptes, favoris, export vers les plateformes de streaming et backoffice.
+- Jeu multi-appareils par code, smartphone en manette, autres langues,
+  bouton « Signaler », decennies anterieures et paysage/grands ecrans.
+
+
+POINT D'ATTENTION - ALIGNEMENT AVEC LE DESIGN SYSTEM
+---------------------------------------------------
+Le document de specifications fonctionnelles consolide definit pour V0 :
+- durees : 10 / 15 / 20 / 25 secondes ;
+- nombre d'extraits : 10 a 100 par pas de 10 ;
+- filtres : repertoire, notoriete et generations ;
+- fin de partie sans tableau recapitulatif (tableau prevu en V2).
+
+Le design system disponible mentionne d'autres valeurs pour certains criteres
+(durees 5 / 10 / 20 / 30 secondes, quantites 5 / 10 / 15 / 20, temporalite
+et difficulte) ainsi qu'un tableau de fin MVP. Cet inventaire suit les
+specifications techniques fonctionnelles consolidees pour le comportement du
+MVP ; les divergences du design system sont a arbitrer avant implementation,
+et ne doivent pas etre fusionnees sans validation.
+
+
+SOURCE
+------
+Specs-techniques-Blind-test.pdf
+Specifications fonctionnelles consolidees : V0 -> V3, version du
+15 octobre 2026. Le design system a ete consulte uniquement pour relever les
+ecarts de perimetre et de valeurs.

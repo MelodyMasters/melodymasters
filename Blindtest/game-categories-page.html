@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelodyMasters - Game Categories</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            /* Colorful background with multiple colors */
+            background: linear-gradient(135deg, #FF61D2, #FE9090, #6B8DE8, #5DE6DE);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        
+        .logo span {
+            color: #74FEBD;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 35px;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #FFFFFF;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .cta-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .glass-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: -1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+        
+        .circle1 {
+            width: 400px;
+            height: 400px;
+            top: 5%;
+            left: -10%;
+            background: radial-gradient(circle, rgba(255, 97, 210, 0.1), rgba(254, 144, 144, 0.05));
+            animation: floatBubbleSlow 15s infinite alternate;
+        }
+        
+        .circle2 {
+            width: 500px;
+            height: 500px;
+            bottom: -15%;
+            right: -15%;
+            background: radial-gradient(circle, rgba(93, 230, 222, 0.1), rgba(107, 141, 232, 0.05));
+            animation: floatBubbleSlow 20s infinite alternate-reverse;
+        }
+        
+        @keyframes floatBubbleSlow {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            50% {
+                transform: translateY(-30px) translateX(20px) scale(1.05);
+            }
+            100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+        }
+        
+        /* Games Categories Styles */
+        .categories-section {
+            padding: 60px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 60px;
+            color: #ffffff;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            perspective: 1000px;
+        }
+        
+        .category-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            height: 280px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .category-card:nth-child(1) {
+            background: linear-gradient(135deg, rgba(255, 97, 210, 0.15), rgba(254, 144, 144, 0.15));
+        }
+        
+        .category-card:nth-child(2) {
+            background: linear-gradient(135deg, rgba(254, 144, 144, 0.15), rgba(107, 141, 232, 0.15));
+        }
+        
+        .category-card:nth-child(3) {
+            background: linear-gradient(135deg, rgba(107, 141, 232, 0.15), rgba(93, 230, 222, 0.15));
+        }
+        
+        .category-card:nth-child(4) {
+            background: linear-gradient(135deg, rgba(93, 230, 222, 0.15), rgba(255, 97, 210, 0.15));
+        }
+        
+        .category-card:nth-child(5) {
+            background: linear-gradient(135deg, rgba(254, 144, 144, 0.15), rgba(255, 97, 210, 0.15));
+        }
+        
+        .category-card:nth-child(6) {
+            background: linear-gradient(135deg, rgba(93, 230, 222, 0.15), rgba(107, 141, 232, 0.15));
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .category-icon {
+            font-size: 50px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+        }
+        
+        .category-icon::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:nth-child(1) .category-icon {
+            color: #FF61D2;
+            text-shadow: 0 0 15px rgba(255, 97, 210, 0.8);
+        }
+        
+        .category-card:nth-child(2) .category-icon {
+            color: #FE9090;
+            text-shadow: 0 0 15px rgba(254, 144, 144, 0.8);
+        }
+        
+        .category-card:nth-child(3) .category-icon {
+            color: #6B8DE8;
+            text-shadow: 0 0 15px rgba(107, 141, 232, 0.8);
+        }
+        
+        .category-card:nth-child(4) .category-icon {
+            color: #5DE6DE;
+            text-shadow: 0 0 15px rgba(93, 230, 222, 0.8);
+        }
+        
+        .category-card:nth-child(5) .category-icon {
+            color: #74FEBD;
+            text-shadow: 0 0 15px rgba(116, 254, 189, 0.8);
+        }
+        
+        .category-card:nth-child(6) .category-icon {
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+        
+        .category-card:hover .category-icon::before {
+            transform: translate(-50%, -50%) scale(1.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Icon animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes wiggle {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes flip {
+            0%, 100% {
+                transform: rotateY(0);
+            }
+            50% {
+                transform: rotateY(180deg);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            20%, 60% {
+                transform: translateX(-5px);
+            }
+            40%, 80% {
+                transform: translateX(5px);
+            }
+        }
+        
+        .category-card:nth-child(1) .category-icon i {
+            animation: pulse 2s infinite;
+        }
+        
+        .category-card:nth-child(2) .category-icon i {
+            animation: wiggle 3s infinite;
+        }
+        
+        .category-card:nth-child(3) .category-icon i {
+            animation: bounce 2s infinite;
+        }
+        
+        .category-card:nth-child(4) .category-icon i {
+            animation: spin 6s infinite linear;
+        }
+        
+        .category-card:nth-child(5) .category-icon i {
+            animation: shake 3s infinite;
+        }
+        
+        .category-card:nth-child(6) .category-icon i {
+            animation: flip 5s infinite;
+        }
+        
+        .category-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: 600;
+            position: relative;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .category-description {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), transparent);
+            z-index: -1;
+            border-radius: inherit;
+        }
+        
+        .floating-notes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .note {
+            position: absolute;
+            animation: float 15s infinite linear;
+            opacity: 0.3;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+</head>
+<body>
+    <div class="glass-circle circle1"></div>
+    <div class="glass-circle circle2"></div>
+    
+    <div class="floating-notes">
+        <!-- Musical notes will be added by JavaScript -->
+    </div>
+    
+    <div class="container">
+        <nav>
+            <div class="logo">Melody<span>Masters</span></div>
+            <ul class="nav-links">
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#" class="active">Jeux</a></li>
+                <li><a href="#">Classement</a></li>
+                <li><a href="#">À propos</a></li>
+            </ul>
+            <button class="cta-button">S'inscrire</button>
+        </nav>
+        
+        <section class="categories-section">
+            <h2 class="section-title">Choisis ton défi</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 class="category-title">Blind Test</h3>
+                    <p class="category-description">Devine la chanson à partir d'un court extrait audio</p>
+                    <div class="blur-overlay"></div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-guitar"></i>
+                    </div>
+                    <h3 class="category-title">Maître des instruments</h3>
+                    <p class="category-description">Identifie les instruments dans des arrangements complexes</p>
+                    <div class="blur-overlay"></div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="category-title">Défi des époques</h3>
+                    <p class="category-description">Classe les chansons sur une timeline musicale</p>
+                    <div class="blur-overlay"></div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="category-title">Légende des paroles</h3>
+                    <p class="category-description">Complète le défi des paroles manquantes</p>
+                    <div class="blur-overlay"></div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-compact-disc"></i>
+                    </div>
+                    <h3 class="category-title">Explorateur d'albums</h3>
+                    <p class="category-description">Associe les chansons à leurs albums d'origine</p>
+                    <div class="blur-overlay"></div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3 class="category-title">Génie des genres</h3>
+                    <p class="category-description">Teste tes connaissances des genres musicaux</p>
+                    <div class="blur-overlay"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Create floating music notes
+        function createNotes() {
+            const noteIcons = ['♪', '♫', '♩', '♬', '♭', '♮', '♯'];
+            const notesContainer = document.querySelector('.floating-notes');
+            const screenWidth = window.innerWidth;
+            
+            for (let i = 0; i < 20; i++) {
+                const note = document.createElement('div');
+                note.className = 'note';
+                note.innerHTML = noteIcons[Math.floor(Math.random() * noteIcons.length)];
+                note.style.left = Math.random() * screenWidth + 'px';
+                note.style.top = Math.random() * 100 + 'vh';
+                note.style.fontSize = Math.random() * 20 + 20 + 'px';
+                note.style.animationDuration = Math.random() * 10 + 15 + 's';
+                note.style.animationDelay = Math.random() * 10 + 's';
+                notesContainer.appendChild(note);
+            }
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            createNotes();
+        });
+    </script>
+</body>
+</html>
